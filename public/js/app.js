@@ -16,7 +16,7 @@ const fetchData = () => {
     }
 };
 const getPokemon = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield fetch("https://pokeapi.co/api/v2/pokemon/${id}");
+    const data = yield fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
     const pokemon = yield data.json();
     const pokemonType = pokemon.types
         .map((poke) => poke.type.name)
@@ -24,7 +24,7 @@ const getPokemon = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const transformedPokemon = {
         id: pokemon.id,
         name: pokemon.name,
-        image: "${pokemon.sprites.front_default}",
+        image: `${pokemon.sprites.front_default}`,
         type: pokemonType,
     };
     showPokemon(transformedPokemon);
