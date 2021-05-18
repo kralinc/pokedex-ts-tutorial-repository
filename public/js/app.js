@@ -9,9 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const container = document.getElementById("app");
-const pokemons = 100;
-const fetchData = () => {
-    for (let i = 1; i < pokemons; i++) {
+const numPokemonInput = document.querySelector("#num-pokemon");
+let pokemons = 100;
+const fetchData = (offset) => {
+    for (let i = offset; i <= pokemons; i++) {
         getPokemon(i);
     }
 };
@@ -40,4 +41,24 @@ const showPokemon = (pokemon) => {
     `;
     container.innerHTML += output;
 };
-fetchData();
+fetchData(1);
+const checkNumPokemon = (key) => {
+    if (key === "Enter") {
+        pokemons = parseInt(numPokemonInput.value);
+        if (pokemons > 0 && pokemons <= 600) {
+            const currentPokemon = document.getElementsByClassName("card");
+            let offset = currentPokemon.length;
+            for (let i = 0; i < currentPokemon.length; i++) {
+                const poke = currentPokemon[i].classList;
+                if (i < pokemons && poke.contains("invisible")) {
+                    poke.remove("invisible");
+                }
+                else if (i > pokemons && !poke.contains("invisible")) {
+                    poke.add("invisible");
+                }
+            }
+            fetchData(offset);
+        }
+    }
+};
+numPokemonInput.addEventListener("keyup", function (event) { checkNumPokemon(event.key); });

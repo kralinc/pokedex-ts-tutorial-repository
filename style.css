@@ -82,3 +82,17 @@ main > h1 {
   font-size: 1.3rem;
   color: #dbca80;
 }
+
+.input {
+    background-color: #444444;
+    color: #ffffff;
+    padding: 1rem;
+    margin: 1rem;
+    border: none;
+    border-radius: 1rem;
+    font-family: "Caveat", cursive;
+}
+
+.invisible {
+    display: none;
+}

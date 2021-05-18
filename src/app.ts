@@ -1,5 +1,6 @@
 const container: HTMLElement | any = document.getElementById("app");
-const pokemons: number = 100;
+const numPokemonInput: HTMLElement | any = document.querySelector("#num-pokemon");
+let pokemons: number = 100;
 
 interface IPokemon {
     id: number;
@@ -8,14 +9,15 @@ interface IPokemon {
     type: string;
 }
 
-const fetchData = (): void => {
-    for (let i = 1; i < pokemons; i++) 
+const fetchData = (offset: number): void => {
+    for (let i = offset; i <= pokemons; i++) 
     {
         getPokemon(i);
     }
 }
 
 const getPokemon = async (id: number): Promise<void> => {
+
     const data: Response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
     const pokemon: any = await data.json();
     const pokemonType: string = pokemon.types
@@ -45,4 +47,31 @@ const showPokemon = (pokemon: IPokemon): void => {
     container.innerHTML += output;
 }
 
-fetchData()
+fetchData(1);
+
+const checkNumPokemon = (key: string): void => {
+    if (key === "Enter") 
+    {
+        pokemons = parseInt(numPokemonInput.value);
+
+        if (pokemons > 0 && pokemons <= 600) 
+        {
+            const currentPokemon: HTMLElement | any = document.getElementsByClassName("card");
+            let offset: number = currentPokemon.length;
+            for (let i = 0; i < currentPokemon.length; i++)
+            {
+                const poke = currentPokemon[i].classList;
+                if (i < pokemons && poke.contains("invisible")) 
+                {
+                    poke.remove("invisible");
+                }else if (i > pokemons && !poke.contains("invisible"))
+                {
+                    poke.add("invisible");
+                }
+            }
+
+            fetchData(offset);
+        }
+    }
+}
+numPokemonInput.addEventListener("keyup", function(event: KeyboardEvent): void {checkNumPokemon(event.key)});
